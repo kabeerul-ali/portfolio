@@ -1,0 +1,51 @@
+body {
+    background: rgba(0, 0, 0, 0.7);
+backdrop-filter: blur(10px);
+  margin: 0; /* optional, reset default margin */
+  height: 100vh; /* ensure full height */
+  color: white; /* optional, for contrast */
+}
+
+.bg-xx {
+  position: relative;
+  overflow: hidden;
+  z-index: 0; /* Make sure it sits behind content */
+  /* Background image settings */
+  background-image: url(' https://res.cloudinary.com/dfjttwg1q/image/upload/v1755007926/uploads/j0zslnkxtquvy4p5f0ok.jpg'); /* Change this URL as needed */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Create the blur effect with a pseudo element */
+}
+
+.bg-xx::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  background-image: inherit; /* same background image */
+  background-size: inherit;
+  background-position: inherit;
+  background-repeat: inherit;
+
+  filter: blur(8px);
+  opacity: 0.6;
+  z-index: -1; /* Behind the element content */
+  pointer-events: none;
+}
+ .about{
+  background: linear-gradient(135deg, #1d1b2085 0%, #31405a 100%);
+
+ }
+ .aboutdes{
+  color: black;
+ }
+ .navu{
+  background: rgba(0, 0, 0, 0.7);
+backdrop-filter: blur(10px);
+ }
+.navlinks{
+  color: #00ffff;
+font-weight: 600;
+border-bottom: 2px solid #00ffff;
+}

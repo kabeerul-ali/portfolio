@@ -1,0 +1,125 @@
+/* Prevent vertical scrolling */
+* { box-sizing: border-box; }
+/* html, body {
+  overflow-y: hidden;
+  height: 100%;
+  margin: 0;
+} */
+
+/* Main container */
+.home-container {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Background video */
+.home-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: -1;
+  filter: brightness(0.6);
+}
+
+/* Overlay layout (shared) */
+.home-overlay {
+  position: relative;
+  height: 100%;
+  padding: 0 5%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* LEFT: title & subtitle */
+.home-left {
+  flex: 1 1 50%;
+  max-width: 50%;
+  margin-bottom: 42vh;
+}
+
+.home-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+
+.home-subtitle {
+  font-size: 1.5rem;
+  color: #ddd;
+  margin: 0 0 1rem 0;
+}
+
+/* RIGHT: messages */
+.home-right {
+  flex: 0 0 30vw; /* on desktop this becomes fixed width */
+  max-width: 30vw;
+  text-align: left;
+}
+
+/* Typing message style (blinking cursor) */
+.home-message {
+  font-size: 1rem;
+  color: #fff;
+  line-height: 1.4;
+  border-right: 2px solid white;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  animation: blinkCursor 0.8s steps(2, start) infinite;
+  margin: 0;
+}
+
+/* Cursor blink */
+@keyframes blinkCursor {
+  0% { border-color: white; }
+  50% { border-color: transparent; }
+  100% { border-color: white; }
+}
+
+/* MOBILE: stack and center */
+@media (max-width: 768px) {
+  .home-overlay {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5% 6%;
+  }
+
+  .home-left {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 6vh;
+    text-align: center;
+  }
+
+  .home-right {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 42vh;
+    text-align: center;
+  }
+
+  .home-title {
+    font-size: 2rem;
+  }
+
+  .home-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .home-message {
+    font-size: 0.95rem;
+  }
+}
+
+/* SMALL desktop adjustments (optional) */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .home-right { max-width: 34vw; }
+}

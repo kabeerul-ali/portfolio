@@ -1,0 +1,15 @@
+# common
+node_modules
+.env
+
+# frontend
+frontend/node_modules
+frontend/.env
+frontend/build
+
+# backend
+backend/node_modules
+backend/.env
+
+# logs
+npm-debug.log

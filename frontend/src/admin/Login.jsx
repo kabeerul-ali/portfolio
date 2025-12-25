@@ -103,9 +103,7 @@ const Login = () => {
               </form>
 
               <div className="text-center mt-3">
-                <small className="text-muted">
-                  Tip: token is stored as an HttpOnly cookie (not in localStorage).
-                </small>
+                
               </div>
             </div>
           </div>

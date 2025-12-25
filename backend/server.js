@@ -24,7 +24,7 @@ app.use(limiter);
 // CORS
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL || "https://portfolio-backend4u.onrender.com"],
+    origin: [process.env.FRONTEND_URL || "https://kabeerul-ali-portfolio.netlify.app/"],
     credentials: true,
   })
 );

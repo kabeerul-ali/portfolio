@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const BASE_URL = process.env.REACT_APP_HOST || "http://localhost:5000";
+  const BASE_URL = process.env.REACT_APP_HOST || "https://portfolio-backend4u.onrender.com";
   const navigate = useNavigate();
 
   const [form, setForm] = useState({ email: "", password: "" });

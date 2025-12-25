@@ -9,19 +9,38 @@ const PrivateRoute = () => {
 
   useEffect(() => {
     let mounted = true;
+
     axios
-      .get("/api/auth/me") // axios.defaults.baseURL set in index.js
+      .get("/api/auth/me", {
+        withCredentials: true, // 🔥 CRITICAL FIX
+      })
       .then((res) => {
         if (!mounted) return;
-        if (res.status === 200 && res.data?.user) setAuthenticated(true);
-        else setAuthenticated(false);
+        if (res.status === 200 && res.data?.user) {
+          setAuthenticated(true);
+        } else {
+          setAuthenticated(false);
+        }
       })
-      .catch(() => setAuthenticated(false))
-      .finally(() => mounted && setChecking(false));
-    return () => (mounted = false);
+      .catch(() => {
+        setAuthenticated(false);
+      })
+      .finally(() => {
+        if (mounted) setChecking(false);
+      });
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
-  if (checking) return <div className="d-flex justify-content-center align-items-center vh-100"><div className="spinner-border" role="status" /></div>;
+  if (checking) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="spinner-border" role="status" />
+      </div>
+    );
+  }
 
   return authenticated ? <Outlet /> : <Navigate to="/admin/login" replace />;
 };

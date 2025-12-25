@@ -8,10 +8,11 @@ const createToken = (payload) => {
 
 const cookieOptions = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: "lax",
+  secure: true,          // 🔥 Render + Netlify => ALWAYS true
+  sameSite: "none",      // 🔥 CROSS-SITE COOKIE FIX
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
+
 
 const loginUser = async (req, res) => {
   try {
@@ -35,8 +36,8 @@ const loginUser = async (req, res) => {
 const logoutUser = (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    secure: true,
+    sameSite: "none",
   });
   res.json({ message: "Logged out" });
 };

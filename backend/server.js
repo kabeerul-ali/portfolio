@@ -24,10 +24,14 @@ app.use(limiter);
 // CORS
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL || "https://kabeerul-ali-portfolio.netlify.app/"],
+    origin: "https://kabeerul-ali-portfolio.netlify.app", // 
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
+
+// 🔥 THIS LINE IS VERY IMPORTANT
+app.options("*", cors());
 
 // Serve static images if needed
 app.use("/uploads", express.static("uploads"));

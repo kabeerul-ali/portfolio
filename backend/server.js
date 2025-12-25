@@ -7,36 +7,39 @@ const rateLimit = require("express-rate-limit");
 const cookieParser = require("cookie-parser");
 
 dotenv.config();
+
 const app = express();
 
-// ========== Middleware ==========
+/* ================== BASIC MIDDLEWARE ================== */
 app.use(express.json());
 app.use(cookieParser());
-app.use(helmet());
 
-// Rate Limiter
+/* ================== HELMET (SAFE CONFIG) ================== */
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
+
+/* ================== CORS (FINAL FIX) ================== */
+app.use(
+  cors({
+    origin: "https://kabeerul-ali-portfolio.netlify.app",
+    credentials: true,
+  })
+);
+
+/* ================== RATE LIMIT ================== */
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
 });
 app.use(limiter);
 
-// CORS
-app.use(
-  cors({
-    origin: "https://kabeerul-ali-portfolio.netlify.app", // 
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
-  })
-);
-
-// 🔥 THIS LINE IS VERY IMPORTANT
-app.options("*", cors());
-
-// Serve static images if needed
+/* ================== STATIC FILES ================== */
 app.use("/uploads", express.static("uploads"));
 
-// ========== Routes ==========
+/* ================== ROUTES ================== */
 const authRoutes = require("./routes/auth");
 const blogRoutes = require("./routes/blog");
 const projectRoutes = require("./routes/project");
@@ -51,23 +54,24 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/experiences", experienceRoutes);
 app.use("/api/skills", skillRoutes);
 app.use("/api/contact", contactRoutes);
-app.use("/api/cloudinary", cloudinaryRoutes); // ✅ Added new Cloudinary route
+app.use("/api/cloudinary", cloudinaryRoutes);
 
-// ========== Global Error Handler ==========
+/* ================== GLOBAL ERROR HANDLER ================== */
 app.use((err, req, res, next) => {
   console.error("Unhandled Error:", err);
   res.status(500).json({ message: "Something went wrong!" });
 });
 
-// ========== DB Connection & Start Server ==========
+/* ================== DB & SERVER ================== */
 mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("✅ MongoDB Connected");
     const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+    app.listen(PORT, () =>
+      console.log(`🚀 Server running on port ${PORT}`)
+    );
   })
-  .catch((err) => console.error("MongoDB Connection Error:", err));
+  .catch((err) => {
+    console.error("❌ MongoDB Connection Error:", err);
+  });

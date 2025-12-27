@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { CircularProgress, Box } from "@mui/material";
 
 const SkillsUser = () => {
   const BASE_URL = process.env.REACT_APP_HOST || "http://localhost:5000";
   const [skills, setSkills] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSkills = async () => {
@@ -12,6 +14,8 @@ const SkillsUser = () => {
         setSkills(res.data || []);
       } catch (err) {
         console.error("Failed to load skills", err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchSkills();
@@ -25,10 +29,26 @@ const SkillsUser = () => {
 
   // Map level to progress % and color
   const levelToProgress = {
-    Beginner: { percent: 40, color: "#dc3545" }, // red
-    Intermediate: { percent: 70, color: "#ffc107" }, // yellow
-    Expert: { percent: 100, color: "#198754" }, // green
+    Beginner: { percent: 40, color: "#dc3545" },
+    Intermediate: { percent: 70, color: "#ffc107" },
+    Expert: { percent: 100, color: "#198754" },
   };
+
+  // 🔄 Laggy loading spinner
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          height: "60vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <CircularProgress size={60} />
+      </Box>
+    );
+  }
 
   return (
     <div className="container py-5">
@@ -36,35 +56,47 @@ const SkillsUser = () => {
 
       {Object.entries(groupedSkills).map(([category, skills]) => (
         <div key={category} className="mb-5">
-          <h4 className="mb-3  border-bottom border-3  pb-1">
+          <h4 className="mb-3 border-bottom border-3 pb-1">
             {category}
           </h4>
           <div className="row">
             {skills.map(({ _id, name, level, icon }) => {
-              const { percent, color } = levelToProgress[level] || levelToProgress.Intermediate;
+              const { percent, color } =
+                levelToProgress[level] || levelToProgress.Intermediate;
+
               return (
                 <div key={_id} className="col-md-6 col-lg-4 mb-4">
                   <div className="card shadow-sm p-3 h-100 d-flex flex-column justify-content-center projectbg">
                     <div className="d-flex align-items-center mb-3">
-                      {icon && (
-                        icon.startsWith("http") ? (
+                      {icon &&
+                        (icon.startsWith("http") ? (
                           <img
                             src={icon}
                             alt={name}
-                            style={{ height: 30, width: 30, objectFit: "contain" }}
+                            style={{
+                              height: 30,
+                              width: 30,
+                              objectFit: "contain",
+                            }}
                             className="me-3"
                           />
                         ) : (
-                          <i className={`${icon} me-3`} style={{ fontSize: 24 }} />
-                        )
-                      )}
+                          <i
+                            className={`${icon} me-3`}
+                            style={{ fontSize: 24 }}
+                          />
+                        ))}
                       <h5 className="mb-0">{name}</h5>
                     </div>
+
                     <div className="progress" style={{ height: "12px" }}>
                       <div
                         className="progress-bar"
                         role="progressbar"
-                        style={{ width: `${percent}%`, backgroundColor: color }}
+                        style={{
+                          width: `${percent}%`,
+                          backgroundColor: color,
+                        }}
                         aria-valuenow={percent}
                         aria-valuemin="0"
                         aria-valuemax="100"
@@ -80,7 +112,9 @@ const SkillsUser = () => {
         </div>
       ))}
 
-      {skills.length === 0 && <p className="text-center">No skills found.</p>}
+      {skills.length === 0 && (
+        <p className="text-center">No skills found.</p>
+      )}
     </div>
   );
 };

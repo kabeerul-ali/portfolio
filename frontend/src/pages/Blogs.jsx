@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { CircularProgress, Box } from "@mui/material";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
   const BASE_URL = process.env.REACT_APP_HOST;
 
   useEffect(() => {
@@ -16,8 +18,27 @@ const BlogList = () => {
       })
       .catch((err) => {
         console.error("❌ Failed to load blogs", err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [BASE_URL]);
+
+  // 🔄 Laggy loading spinner
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          height: "60vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <CircularProgress size={60} />
+      </Box>
+    );
+  }
 
   return (
     <section className="container py-5">
@@ -58,6 +79,7 @@ const BlogList = () => {
             </div>
           </div>
         ))}
+
         {blogs.length === 0 && <p>No blogs available.</p>}
       </div>
     </section>

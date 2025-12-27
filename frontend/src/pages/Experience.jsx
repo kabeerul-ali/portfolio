@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { CircularProgress, Box } from "@mui/material";
 
 const ExperienceUser = () => {
   const BASE_URL = process.env.REACT_APP_HOST || "http://localhost:5000";
 
   const [experiences, setExperiences] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchExperiences = async () => {
@@ -13,10 +15,28 @@ const ExperienceUser = () => {
         setExperiences(res.data || []);
       } catch (err) {
         console.error("Failed to fetch experiences", err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchExperiences();
   }, [BASE_URL]);
+
+  // 🔄 Laggy loading spinner
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          height: "60vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <CircularProgress size={60} />
+      </Box>
+    );
+  }
 
   return (
     <section className="container py-5">
@@ -26,21 +46,40 @@ const ExperienceUser = () => {
 
       <div className="timeline">
         {experiences.map((exp) => (
-          <div key={exp._id} className="timeline-item mb-5 p-4 shadow rounded projectbg">
-            <h4 className="fw-bold">{exp.role} <span className="text-muted fw-normal">at {exp.company}</span></h4>
+          <div
+            key={exp._id}
+            className="timeline-item mb-5 p-4 shadow rounded projectbg"
+          >
+            <h4 className="fw-bold">
+              {exp.role}{" "}
+              <span className="text-muted fw-normal">
+                at {exp.company}
+              </span>
+            </h4>
             <p className="text-muted">
-              {new Date(exp.startDate).toLocaleDateString(undefined, { year: "numeric", month: "short" })} -{" "}
+              {new Date(exp.startDate).toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "short",
+              })}{" "}
+              -{" "}
               {exp.endDate
-                ? new Date(exp.endDate).toLocaleDateString(undefined, { year: "numeric", month: "short" })
+                ? new Date(exp.endDate).toLocaleDateString(undefined, {
+                    year: "numeric",
+                    month: "short",
+                  })
                 : "Present"}
             </p>
-            {exp.location && <p className="fst-italic">{exp.location}</p>}
-            {exp.description && <p>{exp.description}</p>}
-            {exp.technologies && exp.technologies.length > 0 && (
-              <p>
-                <strong>Technologies:</strong> {exp.technologies.join(", ")}
-              </p>
+            {exp.location && (
+              <p className="fst-italic">{exp.location}</p>
             )}
+            {exp.description && <p>{exp.description}</p>}
+            {exp.technologies &&
+              exp.technologies.length > 0 && (
+                <p>
+                  <strong>Technologies:</strong>{" "}
+                  {exp.technologies.join(", ")}
+                </p>
+              )}
           </div>
         ))}
       </div>

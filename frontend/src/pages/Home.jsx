@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Home.css";
+import bgImage from "/assets/bg.png"; // ✅ SAFE IMPORT
 
 const messages = [
   "Home – Welcome to my portfolio! Explore all sections to learn about me, my skills, projects, experiences, blogs, and how to connect.",
@@ -94,7 +95,15 @@ const Home = () => {
   }, []);
 
   return (
-    <section className="home-container">
+    <section
+      className="home-container"
+      style={{
+        backgroundImage: `
+          linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+          url(${bgImage})
+        `,
+      }}
+    >
       <div className="home-overlay">
         <div className="home-left">
           <h1 className="home-title">{titleText}</h1>

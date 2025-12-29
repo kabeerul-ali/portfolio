@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { CircularProgress, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const BASE_URL = process.env.REACT_APP_HOST;
+  const navigate = useNavigate();
 
-  // Fetch projects
   useEffect(() => {
     axios
       .get(`${BASE_URL}/api/projects`)
       .then((res) => setProjects(res.data))
-      .catch((err) => {
-        console.error("❌ Failed to load projects", err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      .catch((err) => console.error("❌ Failed to load projects", err))
+      .finally(() => setLoading(false));
   }, [BASE_URL]);
 
-  // 🔄 Laggy loading spinner
   if (loading) {
     return (
       <Box
@@ -40,24 +36,49 @@ const Projects = () => {
     <section className="container py-5">
       <h2 className="fw-bold mb-4 text-center">My Projects</h2>
 
-      {/* Project Cards */}
       <div className="row g-4">
         {projects.map((project) => (
           <div key={project._id} className="col-md-6 col-lg-4">
-            <div className="card h-100 shadow-sm border-0">
+            <div
+              className="card h-100 shadow-sm border-0"
+              style={{ minHeight: "480px" }}
+            >
               {project.imageUrl && (
                 <img
                   src={project.imageUrl}
                   alt={project.title}
                   className="card-img-top"
-                  style={{ height: "200px", objectFit: "cover" }}
+                  style={{
+                    height: "200px",
+                    objectFit: "cover",
+                  }}
                 />
               )}
+
               <div className="card-body d-flex flex-column projectbg">
                 <h5 className="card-title fw-bold">{project.title}</h5>
-                <p className="card-text text-muted flex-grow-1">
+
+                {/* Fixed description height */}
+                <p
+                  className="card-text text-muted"
+                  style={{
+                    overflow: "hidden",
+                    display: "-webkit-box",
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: "vertical",
+                  }}
+                >
                   {project.description}
                 </p>
+
+                {/* Read More */}
+                <button
+                  className="btn btn-outline-primary btn-sm mt-auto align-self-start"
+                  onClick={() => navigate(`/projects/${project._id}`)}
+                >
+                  Read More
+                </button>
+
                 <div className="mt-3">
                   {project.liveDemoLink && (
                     <a
@@ -81,6 +102,7 @@ const Projects = () => {
                   )}
                 </div>
               </div>
+
               <div className="card-footer border-0 projectbg">
                 {project.technologies?.length > 0 && (
                   <small className="text-muted">

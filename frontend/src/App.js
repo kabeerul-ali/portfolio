@@ -13,6 +13,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Skills from "./pages/Skills";
 import Projects from "./pages/Projects";
+import ProjectDetails from "./pages/ProjectDetails";
 import Blogs from "./pages/Blogs";
 import Experience from "./pages/Experience";
 import Contact from "./pages/Contact";
@@ -60,11 +61,13 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/skills" element={<Skills />} />
           <Route path="/projects" element={<Projects />} />
+           <Route path="/projects/:id" element={<ProjectDetails/>}/>
           <Route path="/experiences" element={<Experience />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/test" element={<Test />} />
           <Route path="/blogs/:id" element={<BlogDetail />} />
+          
 
           {/* Admin Login */}
           <Route path="/admin/login" element={<Login />} />

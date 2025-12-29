@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Home.css";
-import bgImage from "/assets/bg.png"; // ✅ SAFE IMPORT
 
 const messages = [
   "Home – Welcome to my portfolio! Explore all sections to learn about me, my skills, projects, experiences, blogs, and how to connect.",
@@ -73,7 +72,11 @@ const Home = () => {
 
       await typeText("Kabeerul Ali", setTitleText, 80);
       await sleep(300);
-      await typeText("Full Stack Web Developer & Engineer", setSubtitleText, 50);
+      await typeText(
+        "Full Stack Web Developer & Engineer",
+        setSubtitleText,
+        50
+      );
       await sleep(1000);
 
       let index = 0;
@@ -100,7 +103,7 @@ const Home = () => {
       style={{
         backgroundImage: `
           linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-          url(${bgImage})
+          url(${process.env.PUBLIC_URL}/assets/bg.png)
         `,
       }}
     >

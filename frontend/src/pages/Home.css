@@ -3,7 +3,7 @@
   box-sizing: border-box;
 }
 
-/* Main container (background handled in JSX) */
+/* Main container (background set via JSX) */
 .home-container {
   position: relative;
   height: 100vh;

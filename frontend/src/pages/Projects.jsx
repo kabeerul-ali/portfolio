@@ -41,7 +41,7 @@ const Projects = () => {
           <div key={project._id} className="col-md-6 col-lg-4">
             <div
               className="card h-100 shadow-sm border-0"
-              style={{ minHeight: "480px" }}
+              style={{ minHeight: "380px" }}   // ⬅ decreased card size
             >
               {project.imageUrl && (
                 <img
@@ -49,7 +49,7 @@ const Projects = () => {
                   alt={project.title}
                   className="card-img-top"
                   style={{
-                    height: "200px",
+                    height: "160px",          // ⬅ smaller image
                     objectFit: "cover",
                   }}
                 />
@@ -71,25 +71,26 @@ const Projects = () => {
                   {project.description}
                 </p>
 
-                {/* Read More */}
-                <button
-                  className="btn btn-outline-primary btn-sm mt-auto align-self-start"
-                  onClick={() => navigate(`/projects/${project._id}`)}
-                >
-                  Read More
-                </button>
+                {/* Buttons in same line */}
+                <div className="mt-auto d-flex flex-wrap gap-2">
+                  <button
+                    className="btn btn-outline-primary btn-sm"
+                    onClick={() => navigate(`/projects/${project._id}`)}
+                  >
+                    Read More
+                  </button>
 
-                <div className="mt-3">
                   {project.liveDemoLink && (
                     <a
                       href={project.liveDemoLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn btn-primary btn-sm me-2"
+                      className="btn btn-primary btn-sm"
                     >
                       Live Demo
                     </a>
                   )}
+
                   {project.githubLink && (
                     <a
                       href={project.githubLink}
@@ -101,14 +102,6 @@ const Projects = () => {
                     </a>
                   )}
                 </div>
-              </div>
-
-              <div className="card-footer border-0 projectbg">
-                {project.technologies?.length > 0 && (
-                  <small className="text-muted">
-                    {project.technologies.join(", ")}
-                  </small>
-                )}
               </div>
             </div>
           </div>

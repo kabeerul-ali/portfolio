@@ -7,7 +7,7 @@ const About = () => {
         {/* Image Section */}
         <div className="col-md-5 text-center mb-4 mb-md-0">
           <img
-            src="/assets/profile.jpg"
+            src="/assets/profile.png"
             alt="Profile"
             className="img-fluid rounded-circle shadow"
             style={{ width: "250px", height: "250px", objectFit: "cover" }}

@@ -41,12 +41,21 @@ const ProjectDetails = () => {
   return (
     <section className="container py-5">
       {/* Back Button */}
-      <button
-        className="btn btn-outline-secondary mb-4"
-        onClick={() => navigate(-1)}
-      >
-        ← Back
-      </button>
+    <button
+  onClick={() => navigate(-1)}
+  style={{
+    backgroundColor: "#0d6efd", // Bootstrap primary blue
+    color: "#fff",
+    border: "none",
+    padding: "8px 16px",
+    borderRadius: "6px",
+    fontWeight: 500,
+  }}
+  className="mb-4"
+>
+  ← Back
+</button>
+
 
       {/* Image */}
       {project.imageUrl && (

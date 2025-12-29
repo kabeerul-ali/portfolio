@@ -1,33 +1,25 @@
-/* Prevent vertical scrolling */
-* { box-sizing: border-box; }
-/* html, body {
-  overflow-y: hidden;
-  height: 100%;
-  margin: 0;
-} */
+/* Prevent layout issues */
+* {
+  box-sizing: border-box;
+}
 
-/* Main container */
+/* Main container with background image */
 .home-container {
   position: relative;
   height: 100vh;
   overflow: hidden;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+
+  /* Background image replacement */
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("/assets/bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-/* Background video */
-.home-video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  transform: translate(-50%, -50%);
-  object-fit: cover;
-  z-index: -1;
-  filter: brightness(0.6);
-}
-
-/* Overlay layout (shared) */
+/* Overlay layout */
 .home-overlay {
   position: relative;
   height: 100%;
@@ -59,12 +51,12 @@
 
 /* RIGHT: messages */
 .home-right {
-  flex: 0 0 30vw; /* on desktop this becomes fixed width */
+  flex: 0 0 30vw;
   max-width: 30vw;
   text-align: left;
 }
 
-/* Typing message style (blinking cursor) */
+/* Typing message style */
 .home-message {
   font-size: 1rem;
   color: #fff;
@@ -83,7 +75,7 @@
   100% { border-color: white; }
 }
 
-/* MOBILE: stack and center */
+/* MOBILE */
 @media (max-width: 768px) {
   .home-overlay {
     flex-direction: column;
@@ -119,7 +111,9 @@
   }
 }
 
-/* SMALL desktop adjustments (optional) */
+/* Small desktop */
 @media (min-width: 769px) and (max-width: 1200px) {
-  .home-right { max-width: 34vw; }
+  .home-right {
+    max-width: 34vw;
+  }
 }
